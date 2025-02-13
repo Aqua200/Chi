@@ -80,8 +80,8 @@ global.author = 'elrebelde21'
 //------------------------[ Contacto ]-----------------------------
 
 global.official = [ // Agregate si eres Owner
-["85254109507", '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 - 𝕯𝖚𝖊𝖓̃𝖆 💋', 1], 
-["5214774444444", '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 - 𝕺𝖜𝖓𝖊𝖗 💋', 1]]
+["5216631079388", 'neykoor', 1], 
+["5216631079388", 'neykoor', 1]]
 
 global.mail = '' // Add email
 global.desc = '' // Add short description (20 caractres max)
