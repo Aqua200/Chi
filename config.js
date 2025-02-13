@@ -83,9 +83,6 @@ global.official = [ // Agregate si eres Owner
 ["5216631079388", 'neykoor', 1],
 ["5216631079388", 'neykoor', 1],
 
-global.mail = '' // Add email
-global.country = '' // Add country, example: 🇪🇨
-
 //------------[ Versión | Nombre | cuentas ]------------
 
 global.wm = '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋' 
