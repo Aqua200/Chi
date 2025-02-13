@@ -80,7 +80,8 @@ global.author = 'elrebelde21'
 //------------------------[ Contacto ]-----------------------------
 
 global.official = [ // Agregate si eres Owner
-["5216631079388", 'neykoor', 1], 
+["5216631079388", 'neykoor', 1],
+["5216631079388", 'neykoor', 1],
 
 global.mail = '' // Add email
 global.desc = '' // Add short description (20 caractres max)
