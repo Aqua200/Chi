@@ -1366,22 +1366,24 @@ let vn = 'https://qu.ax/cUYg.mp3'
 let or = ['texto', 'audio'];
 let media = or[Math.floor(Math.random() * 2)]
 if (media === 'texto')
-this.sendMessage(id, { text: text, 
-contextInfo:{
-forwardingScore: 9999999,
-isForwarded: true, 
-mentionedJid:[user],
-"externalAdReply": {
-"showAdAttribution": true,
-"renderLargerThumbnail": true,
-"thumbnail": apii.data, 
-"title": [wm, ' ' + wm + '😊', '🌟'].getRandom(),
-"containsAutoReply": true,
-"mediaType": 1, 
-sourceUrl: [md, nna, yt, nnn, nn, tiktok].getRandom()}}}, { quoted: fkontak2 }) 
+    this.sendMessage(id, { text: text, 
+        contextInfo:{
+            forwardingScore: 9999999,
+            isForwarded: true, 
+            mentionedJid:[user],
+            "externalAdReply": {
+                "showAdAttribution": true,
+                "renderLargerThumbnail": true,
+                "thumbnail": apii.data, 
+                "title": [wm, ' ' + wm + '😊', '🌟'].getRandom(),
+                "containsAutoReply": true,
+                "mediaType": 1, 
+                sourceUrl: [md, nna, yt, nnn, nn, tiktok].getRandom()}}}, { quoted: fkontak2 }) 
+// Desactivar la parte del audio
+/*
 if (media === 'audio')
-this.sendMessage(id, { audio: { url: vn }, contextInfo:{ mentionedJid:[user], "externalAdReply": { "thumbnail": apii.data, "title": `乂 ＷＥＬＣＯＭＥ 乂`, "body": [wm, ' ' + wm + '😊', '🌟'].getRandom(), "previewType": "PHOTO", "thumbnailUrl": null, "showAdAttribution": true,  sourceUrl: [md, nna, yt, ig, nn, tiktok].getRandom()}},  ptt: true, mimetype: 'audio/mpeg', fileName: `error.mp3` }, { quoted: fkontak2 })
-//this.sendFile(id, apii.data, 'pp.jpg', text, null, false, { mentions: [user] }, { quoted: fkontak2 })
+    this.sendMessage(id, { audio: { url: vn }, contextInfo:{ mentionedJid:[user], "externalAdReply": { "thumbnail": apii.data, "title": `乂 ＷＥＬＣＯＭＥ 乂`, "body": [wm, ' ' + wm + '😊', '🌟'].getRandom(), "previewType": "PHOTO", "thumbnailUrl": null, "showAdAttribution": true,  sourceUrl: [md, nna, yt, ig, nn, tiktok].getRandom()}},  ptt: true, mimetype: 'audio/mpeg', fileName: `error.mp3` }, { quoted: fkontak2 })
+*/
 }}}
 			    
 break
