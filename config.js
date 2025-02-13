@@ -86,7 +86,11 @@ global.official = [ // Agregate si eres Owner
 //------------[ Versión | Nombre | cuentas ]------------
 
 global.wm = '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋' 
-globalThis.botname = '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋';
+// Crea un objeto de configuración para almacenar las variables globales
+const config = {
+  botname: '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖝𝖚𝖐𝖎 💋'
+};
+export default config;
 global.vs = '1.0.0 (personalizado)'
 global.yt = 'https://www.youtube.com'
 global.tiktok = 'https://www.tiktok.com'
