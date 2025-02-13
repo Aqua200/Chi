@@ -19,10 +19,10 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
 
 *---------------------*
 
-*💞 𝑪𝒓𝒆𝒂𝒅𝒐𝒓𝒂 - 𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋*
+*💞 Creador de la bot𝖎 💋*
 *${ig}*
 
-*𝑪𝒓𝒆𝒂𝒕𝒐𝒓 - 𝒆𝒍𝒓𝒆𝒃𝒆𝒍𝒅𝒆𝟐𝟏*
+*Creador Neykoor*
 ${fb}
 
 *---------------------*
@@ -35,7 +35,7 @@ ${fb}
   }
 
 await conn.sendMessage(m.chat, { text: cat, contextInfo: { forwardedNewsletterMessageInfo: { 
-        newsletterJid: '120363355261011910@newsletter', 
+        newsletterJid: '120363392571425662@newsletter', 
         serverMessageId: '', 
         newsletterName: 'Seguirme bb 😘'
       },
