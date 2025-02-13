@@ -5,7 +5,7 @@ let info = `*✅ BIENVENIDO A LOS GRUPOS OFICIALES*
   
   2) *${nnn}*
 
-➤ Grupo del Colaboracion LoliBot, GataBot-MD
+➤ Grupo oficial 
  *${nnnt}*
 
 ➤ Infomarte sobre las nuevas actualizaciones/novedades/test sobre ${wm} aqui:
