@@ -1,4 +1,4 @@
-const Jimp = require('jimp'); 
+import Jimp from 'jimp'; 
 
 const handler = async (message, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
 try {
