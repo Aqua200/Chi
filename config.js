@@ -84,8 +84,6 @@ global.official = [ // Agregate si eres Owner
 ["5216631079388", 'neykoor', 1],
 
 global.mail = '' // Add email
-globalThis.desc = '' // Add short description (20 caracteres max)
-globalThis.desc2 = '' // Add long description (90 caractres max) (Este parámetro se aplicará sólo si su whasapp no tiene descripción)
 global.country = '' // Add country, example: 🇪🇨
 
 //------------[ Versión | Nombre | cuentas ]------------
