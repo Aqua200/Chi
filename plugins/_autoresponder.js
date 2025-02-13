@@ -7,9 +7,9 @@ let handler = m => m;
 let lastMessageTime = {};
 
 handler.all = async function (m, { conn }) {
-    // Verificar si `m` está definido
-    if (!m || !m.sender) {
-        console.error("El mensaje o el sender no están definidos.");
+    // Verificar si `m` y `conn` están definidos
+    if (!m || !m.sender || !conn) {
+        console.error("Error: El mensaje, el sender o la conexión no están definidos.");
         return;
     }
 
@@ -32,7 +32,7 @@ handler.all = async function (m, { conn }) {
 
     if (m.isBot || m.id?.startsWith('NJX-') || m.fromMe || conn.user?.jid === m.sender) return;
 
-    let prefixRegex = new RegExp('^[' + (opts['prefix'] || '‎z/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.,\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');
+    let prefixRegex = new RegExp('^[' + (opts?.prefix || '‎z/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.,\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');
 
     if (m.sender.includes('bot') || m.sender.includes('Bot')) return true;
 
@@ -44,10 +44,10 @@ handler.all = async function (m, { conn }) {
     // Verificar si el usuario tiene `gameActive` definido
     if (global.db.data.users[m.sender]?.gameActive) return;
 
-    if (m.mentionedJid?.includes(this.user.jid) || (m.quoted && m.quoted.sender === this.user.jid)) {
+    if (m.mentionedJid?.includes(conn.user?.jid) || (m.quoted && m.quoted.sender === conn.user?.jid)) {
         if (["PIEDRA", "PAPEL", "TIJERA", "menu", "estado", "bots", "serbot", "jadibot", "Video", "Audio", "audio", "Bot", "bot", "Exp", "diamante", "lolicoins", "Diamante", "Lolicoins"].some(word => m.text.includes(word))) return true;
 
-        await this.sendPresenceUpdate('composing', m.chat);
+        await conn.sendPresenceUpdate('composing', m.chat);
 
         async function luminsesi(q, username, logic) {
             try {
@@ -79,7 +79,7 @@ handler.all = async function (m, { conn }) {
         let query = m.text;
         let username = m.pushName || "Usuario";
 
-        let syms1 = `Actualmente juegas el rol de una chica llamada China 💋...` // (Aquí puedes dejar el mismo texto de rol que tenías antes)
+        let syms1 = `Actualmente juegas el rol de una chica llamada China 💋...`; // (Texto de rol puede mantenerse igual)
 
         if (!chat.autorespond) return;
         if (m.fromMe) return;
@@ -90,12 +90,12 @@ handler.all = async function (m, { conn }) {
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m);
-            await this.readMessages([m.key]);
+            await conn.reply(m.chat, result, m);
+            await conn.readMessages([m.key]);
         } else {
             let gpt = await fetch(`${apis}/tools/simi?text=${encodeURIComponent(m.text)}`);
             let res = await gpt.json();
-            await this.reply(m.chat, res.data.message, m);
+            await conn.reply(m.chat, res.data.message, m);
         }
     }
     return true;
