@@ -153,7 +153,7 @@ let pp = './Menu2.jpg'
 conn.sendMessage(m.chat, { text: text,  
 contextInfo:{  
 forwardedNewsletterMessageInfo: { 
-newsletterJid: '120363355261011910@newsletter', 
+newsletterJid: '120363392571425662@newsletter', 
 serverMessageId: '', 
 newsletterName: 'Seguirme bb 😘' },
 forwardingScore: 9999999,  
