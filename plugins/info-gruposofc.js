@@ -11,7 +11,7 @@ let info = `*✅ BIENVENIDO A LOS GRUPOS OFICIALES*
 ➤ Infomarte sobre las nuevas actualizaciones/novedades/test sobre ${wm} aqui:
 *${nna2}*
  
-➤ Canal oficial donde encontrarán memes, video, novedades sobre cualquier bot, etc:
+➤ Si no funciona unete a la comunidad :
 *${nna}*
 
  ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
