@@ -7,10 +7,10 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
   // Realizar la eliminación
   await conn.groupParticipantsUpdate(m.chat, [user], 'remove')
 
-  // Mensaje tierno y decorado
+  // Mensaje tierno y decorado, con mención directa y sin emoticonos
   let message = `*~(っ˘̩╭╮˘̩)っ* ¡Oh no, @${user.split('@')[0]}! 😢💔\nLo siento mucho, pero ¡te tengo que sacar del grupo! Espero que no te enojes, te mando muchos abrazos. 💕✨`
 
-  // Enviar el mensaje con la mención correctamente
+  // Enviar el mensaje sin interferencias
   conn.sendMessage(m.chat, message, { mentions: [user] })
 }
 
