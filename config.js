@@ -10,10 +10,18 @@ import moment from 'moment-timezone'
 //---------[ Añada los numeros a ser Propietario/a ]---------
 
 global.owner = [
-  ['5216631079388', 'Neykoor', true]
-]
+['5216631079388', '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 - 𝕯𝖚𝖊𝖓̃𝖆 💋', true],
+['', '', true],
+[''],
+[''],
+[''],
+[''],
+[''], 
+[''],
+['']]
 global.mods = []
 global.prems = []
+
 //BETA: Si quiere evitar escribir el número que será bot en la consola, agregué desde aquí entonces:
 //Sólo aplica para opción 2 (ser bot con código de texto de 8 digitos)
 global.botNumberCode = "" //Ejemplo: +59309090909
@@ -80,36 +88,37 @@ global.author = 'elrebelde21'
 //------------------------[ Contacto ]-----------------------------
 
 global.official = [ // Agregate si eres Owner
-["5216631079388", 'neykoor', 1],
-["5216631079388", 'neykoor', 1],
+["5216631079388", '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 - 𝕯𝖚𝖊𝖓̃𝖆 💋', 1], 
+["5216631079388", '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 - 𝕺𝖜𝖓𝖊𝖗 💋', 1]]
+
+global.mail = '' // Add email
+global.desc = '' // Add short description (20 caractres max)
+global.desc2 = '' // Add long description (90 caractres max) (Este parámetro se aplicará sólo si su whasapp no tiene descripción)
+global.country = '' // Add country, example: 🇪🇨
 
 //------------[ Versión | Nombre | cuentas ]------------
 
 global.wm = '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋' 
-// Crea un objeto de configuración para almacenar las variables globales
-const config = {
-  botname: '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖝𝖚𝖐𝖎 💋'
-};
-export default config;
+global.botname = '𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋'
 global.vs = '1.0.0 (personalizado)'
-global.yt = 'https://www.youtube.com'
-global.tiktok = 'https://www.tiktok.com'
-global.md = 'no disponible '
-global.ig = ''
-global.fb = ''
-global.face = ''
+global.yt = 'https://www.youtube.com/@elrebelde.21'
+global.tiktok = 'https://www.tiktok.com/@elrebelde.21'
+global.md = 'https://github.com/elrebelde21/ChinaMitzuki'
+global.ig = 'https://www.instagram.com/mitzuki_chinita'
+global.fb = 'https://www.facebook.com/elrebelde21'
+global.face = 'https://www.facebook.com/groups/872989990425789/'
 
-global.nna = 'https://whatsapp.com/channel/0029Vb3uTsb90x2rvI6D3G3b' //Update
-global.nna2 = 'https://whatsapp.com/channel/0029Vb3RqSd5vKA6LnYgOS1f' //LoliBot update
-global.nnaa = 'https://whatsapp.com/channel/0029VazHywx0rGiUAYluYB24' //LoliBot - Test
-global.nn = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //Grupo 1
-global.nnn = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //Grupo 2
-global.nnnt = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //Grupo del Colaboracion
-global.nnnt2 = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' // Grupo COL 2
-global.nnntt = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //Grupo COL 3
-global.nnnttt = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //enlace lolibot
-global.nnntttt = 'https://chat.whatsapp.com/COA32BFdiTbK173J1OlF2d' //Grupo ayuda sobre el bot
-global.bot = 'wa.me/5216631079388'
+global.nna = 'https://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A' //Update
+global.nna2 = 'https://whatsapp.com/channel/0029Vau57ykEwEk5CgosvU3v' //LoliBot update
+global.nnaa = 'https://whatsapp.com/channel/0029Vae6j714Y9loutP3Au29' //LoliBot - Test
+global.nn = 'https://chat.whatsapp.com/HNDVUxHphPzG3cJHIwCaX5' //Grupo 1
+global.nnn = 'https://chat.whatsapp.com/KDBt6S54riRCIpSZspkxhg' //Grupo 2
+global.nnnt = 'https://chat.whatsapp.com/IO5k0UOF7hOJHE1eH3Fcxh' //Grupo del Colaboracion
+global.nnnt2 = 'https://chat.whatsapp.com/K7RzcVdxGqhGP5dCpVENSI' // Grupo COL 2
+global.nnntt = 'https://chat.whatsapp.com/IB9Vs7mZ03BBkH3reCU8Dw' //Grupo COL 3
+global.nnnttt = 'https://chat.whatsapp.com/GKJ7UpMsLXaDYcl9PovsJL' //enlace lolibot
+global.nnntttt = 'https://chat.whatsapp.com/FRkr7jJHSJA5OjVtE64dDs' //Grupo ayuda sobre el bot
+global.bot = 'wa.me/573007487856'
 global.asistencia = `${fb}`
 global.redes = [nna, nna2, yt, nn, md, tiktok, fb, nnn, face]
 
@@ -177,12 +186,12 @@ global.flaaa = [
 //---------------[ IDs de canales ]----------------
 
 global.ch = {
-    ch1: '120363392571425662@newsletter',
-    ch2: '120363392571425662@newsletter',
-    ch3: '120363392571425662@newsletter',
-    ch4: '120363392571425662@newsletter',
-    ch5: '120363392571425662@newsletter',
-    ch6: '120363392571425662@newsletter',
+ch1: '120363390725729031@newsletter', 
+ch2: '120363390725729031@newsletter', 
+ch3: '120363390725729031@newsletter',
+ch4: '120363390725729031@newsletter',
+ch5: '120363390725729031@newsletter',
+ch6: '120363390725729031@newsletter',
 }
 
 //----------------------------------------------------
