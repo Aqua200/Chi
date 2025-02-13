@@ -7,7 +7,7 @@ let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? t
 let pp = await this.profilePictureUrl(who, 'image').catch(_ => "https://telegra.ph/file/33bed21a0eaa789852c30.jpg")
 		
 global.canalIdGB = ["120363392571425662@newsletter", "120363392571425662@newsletter", "120363392571425662@newsletter", "120363392571425662@newsletter"]
-global.canalNombreGB = ["Seguirme bb 😘", "ven corazón😘", "Click aqui bb 😘", "Seguirme bb 😘"]
+global.canalNombreGB = ["corazón 💜", "ven corazón😘", "Click aqui bb 😘", "Seguirme bb 😘"]
 global.channelRD = await getRandomChannel()
 	
 global.fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
