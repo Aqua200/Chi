@@ -1471,18 +1471,30 @@ global.dfail = (type, m, conn, usedPrefix) => {
     }[type]
     if (msg) return conn.sendMessage(m.chat, {text: msg, contextInfo: { mentionedJid: null, forwardingScore: 1, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363355261011910@newsletter', serverMessageId: '', newsletterName: 'LoliBot ✨' }, externalAdReply : {mediaUrl: null, mediaType: 1, description: null, "title": `ℹ️𝐈𝐍𝐅𝐎 ℹ️`, body: wm, previewType: 0, "thumbnail": img.getRandom(), sourceUrl: [nna, nna2, md, ig, yt, nn, tiktok].getRandom()}}}, { quoted: m })
 }
-
 const file = global.__filename(import.meta.url, true);
 watchFile(file, async () => {
   unwatchFile(file);
-  console.log(chalk.redBright('Update \'handler.js\''));
-  if (global.reloadHandler) console.log(await global.reloadHandler());
-  
-  if (global.conns && global.conns.length > 0 ) {
-    const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
+  console.log(chalk.redBright("Update 'handler.js'"));
+
+  // Verificar si reloadHandler es una función antes de ejecutarla
+  if (typeof global.reloadHandler === 'function') {
+    console.log(await global.reloadHandler());
+  } else {
+    console.log(chalk.yellow("reloadHandler no está definido o no es una función."));
+  }
+
+  // Verificar si global.conns existe y tiene conexiones activas
+  if (global.conns && Array.isArray(global.conns) && global.conns.length > 0) {
+    const users = [...new Set(
+      global.conns.filter((conn) => conn.user && conn.ws?.socket?.readyState !== ws.CLOSED)
+    )];
+
     for (const userr of users) {
-      userr.subreloadHandler(false)
+      if (typeof userr.subreloadHandler === 'function') {
+        userr.subreloadHandler(false);
+      } else {
+        console.log(chalk.yellow("subreloadHandler no está definido para algún usuario."));
+      }
     }
   }
-  
 });
