@@ -1359,7 +1359,7 @@ this.sendMessage(id, { text: `@${user.split("@")[0]} Nos numero fake no esta per
 let responseb = await this.groupParticipantsUpdate(id, [user], 'remove')
 if (responseb[0].status === "404") return      
 return        
-			    
+}}
 break
 case 'promote':
 case 'daradmin':
