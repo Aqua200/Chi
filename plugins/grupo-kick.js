@@ -4,8 +4,14 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
   let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender
   let owr = m.chat.split`-`[0]
   await conn.groupParticipantsUpdate(m.chat, [user], 'remove')
-  conn.sendMessage(m.chat, `*~(っ˘̩╭╮˘̩)っ* ¡Oh no, @${user.split('@')[0]}! 😢💔\nLo siento mucho, pero ¡te tengo que sacar del grupo! Espero que no te enojes, te mando muchos abrazos. 💕✨`, { mentions: conn.parseMention(`*~(っ˘̩╭╮˘̩)っ* ¡Oh no, @${user.split('@')[0]}! 😢💔\nLo siento mucho, pero ¡te tengo que sacar del grupo! Espero que no te enojes, te mando muchos abrazos. 💕✨`) })
+  
+  // Crear el mensaje sin emoticonos en el texto de la mención
+  let message = `*~(っ˘̩╭╮˘̩)っ* ¡Oh no, @${user.split('@')[0]}! 😢💔\nLo siento mucho, pero ¡te tengo que sacar del grupo! Espero que no te enojes, te mando muchos abrazos. 💕✨`
+
+  // Enviar el mensaje sin interferencias
+  conn.sendMessage(m.chat, message, { mentions: [user] })
 }
+
 handler.help = ['kick *@user*']
 handler.tags = ['group']
 handler.command = ['kick', 'expulsar'] 
