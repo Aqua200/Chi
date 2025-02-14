@@ -234,15 +234,38 @@ filesFolderPreKeys.forEach(files => {
 unlinkSync(`./BotSession/${files}`)
 })
 } 
+const fs = require('fs');
+const path = require('path');
 
 function purgeSessionSB() {
-try {
-let listaDirectorios = readdirSync('./jadibts/');
-let SBprekey = []
-listaDirectorios.forEach(directorio => {
-if (statSync(`./jadibts/${directorio}`).isDirectory()) {
-let DSBPreKeys = readdirSync(`./jadibts/${directorio}`).filter(fileInDir => {
-return fileInDir.startsWith('pre-key-') /*|| fileInDir.startsWith('app-') || fileInDir.startsWith('session-')*/
+  try {
+    // Ruta absoluta hacia 'jadibts' desde la ubicación del script en Termux
+    const dirPath = path.join(__dirname, 'jadibts');
+
+    // Verificar si el directorio existe antes de intentar leerlo
+    if (!fs.existsSync(dirPath)) {
+      console.error('El directorio ./jadibts/ no existe en la ruta:', dirPath);
+      return; // Salir de la función si no existe
+    }
+
+    let listaDirectorios = fs.readdirSync(dirPath);
+    let SBprekey = [];
+
+    listaDirectorios.forEach(directorio => {
+      // Verificar si es un directorio antes de leerlo
+      if (fs.statSync(path.join(dirPath, directorio)).isDirectory()) {
+        let DSBPreKeys = fs.readdirSync(path.join(dirPath, directorio)).filter(fileInDir => {
+          return fileInDir.startsWith('pre-key-'); 
+        });
+
+        // Lógica adicional para trabajar con DSBPreKeys si es necesario
+      }
+    });
+  } catch (error) {
+    console.error('Ocurrió un error:', error);
+  }
+}
+
 })
 SBprekey = [...SBprekey, ...DSBPreKeys]
 DSBPreKeys.forEach(fileInDir => {
