@@ -1,42 +1,44 @@
-let linkRegex = /https?:\/\/(chat\.whatsapp\.com|wa\.me)\/[A-Za-z0-9]{20,24}/i;
+let linkRegex = /https?:\/\/(chat\.whatsapp\.com\/[A-Za-z0-9]{20,24}|whatsapp\.com\/channel\/[A-Za-z0-9]{20,24})/i;
 
 export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, participants }) {
-  if (!m.isGroup) return;
-  if (isAdmin || isOwner || m.fromMe || isROwner) return;
+  if (!m.isGroup) return; // Si no es un grupo, no hacer nada
 
-  let chat = global.db.data.chats[m.chat];
-  let delet = m.key.participant;
-  let bang = m.key.id;
-  const user = `@${m.sender.split`@`[0]}`;
-  const groupAdmins = participants.filter(p => p.admin);
+  if (isAdmin || isOwner || m.fromMe || isROwner) return; // Si el usuario es admin o dueño, no procesar el mensaje
+
+  let chat = global.db.data.chats[m.chat]; // Obtener los datos del chat
+  let delet = m.key.participant; // Usuario que envió el mensaje
+  let bang = m.key.id; // ID del mensaje
+  const user = `@${m.sender.split`@`[0]}`; // Usuario que envía el mensaje
+  const groupAdmins = participants.filter(p => p.admin); // Administradores del grupo
+
   const listAdmin = groupAdmins.map((v, i) => `*» ${i + 1}. @${v.id.split('@')[0]}*`).join('\n');
-  let bot = global.db.data.settings[this.user.jid] || {};
+  let bot = global.db.data.settings[this.user.jid] || {}; // Configuración del bot
 
-  // Verifica el enlace con la nueva expresión regular
-  const messageText = m.text || m.body || '';
-  const isGroupLink = linkRegex.exec(messageText);
+  const messageText = m.text || m.body || ''; // Texto del mensaje
+  const isGroupLink = linkRegex.exec(messageText); // Verificar si el mensaje contiene un enlace de grupo
 
-  if (!chat.antiLink) return;  // Solo proceder si el AntiLink está activado en el chat
+  if (!chat.antiLink) return; // Si el AntiLink no está activado, no hacer nada
 
-  const grupo = `https://chat.whatsapp.com`;
+  const grupo = `https://chat.whatsapp.com`; // Enlace del grupo
 
-  // Si el mensaje contiene el enlace de grupo, y el usuario es admin, no se aplica el AntiLink
-  if (isAdmin && m.text.includes(grupo)) return m.reply('*El AntiLink Esta activo pero que salvarte eres admin 😎!*');
+  if (isAdmin && m.text.includes(grupo)) {
+    return m.reply('*El AntiLink está activo pero te salvaste, eres admin 😎!*');
+  }
 
+  // Si se detecta un enlace y no es admin, tomar acción
   if (chat.antiLink && isGroupLink && !isAdmin) {
     if (isBotAdmin) {
-      // Obtiene el enlace de invitación del grupo y lo compara
       const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
-      if (m.text.includes(linkThisGroup)) return;
+      if (m.text.includes(linkThisGroup)) return; // No eliminar si es el enlace de invitación del grupo
     }
 
-    // Notifica al usuario que rompió las reglas
+    // Notificar que se detectó el enlace
     await conn.sendMessage(m.chat, {
-      text: `*「 ANTILINK DETECTADO 」*\n\n${user} 🤨 Rompiste las reglas del Grupo. Serás eliminado...`,
+      text: `*「 ANTILINK DETECTADO 」*\n\n${user} 🤨 Rompiste las reglas del Grupo, serás eliminado...`,
       mentions: [m.sender]
     }, { quoted: m, ephemeralExpiration: 24 * 60 * 100, disappearingMessagesInChat: 24 * 60 * 100 });
 
-    // Si el bot no es admin, avisa a los admins
+    // Si el bot no es admin, notificar a los admins
     if (!isBotAdmin) {
       return conn.sendMessage(m.chat, {
         text: `*Te salvaste, no soy admin y no puedo eliminarte*`,
@@ -44,7 +46,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
       }, { quoted: m });
     }
 
-    // Si el bot es admin, elimina al usuario
+    // Si el bot es admin, eliminar al usuario
     await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet } });
     let responseb = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
     if (responseb[0].status === "404") return;
