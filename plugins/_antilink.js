@@ -21,37 +21,32 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 
   const grupo = `https://chat.whatsapp.com`; // Enlace del grupo
 
-  if (isAdmin && m.text.includes(grupo)) {
-    return m.reply('*El AntiLink está activo pero te salvaste, eres admin 😎!*');
-  }
+  // Si el mensaje contiene un enlace de grupo (y no es del grupo al que pertenece el bot)
+  if (isGroupLink && !m.text.includes(grupo)) {
+    // Si el usuario es admin, no eliminarlo
+    if (isAdmin) return m.reply('*El AntiLink está activo pero te salvaste, eres admin 😎!*');
 
-  // Si se detecta un enlace y no es admin, tomar acción
-  if (chat.antiLink && isGroupLink && !isAdmin) {
+    // Si el bot tiene permisos de admin y el enlace es diferente del grupo actual
     if (isBotAdmin) {
       const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
       if (m.text.includes(linkThisGroup)) return; // No eliminar si es el enlace de invitación del grupo
+
+      // Notificar que se detectó un enlace de otro grupo
+      await conn.sendMessage(m.chat, {
+        text: `*「 ANTILINK DETECTADO 」*\n\n${user} 🤨 Rompiste las reglas del Grupo, serás eliminado...`,
+        mentions: [m.sender]
+      }, { quoted: m, ephemeralExpiration: 24 * 60 * 100, disappearingMessagesInChat: 24 * 60 * 100 });
+
+      // Eliminar al usuario del grupo
+      await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet } });
+      let responseb = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
+      if (responseb[0].status === "404") return;
     }
+  }
 
-    // Notificar que se detectó el enlace
-    await conn.sendMessage(m.chat, {
-      text: `*「 ANTILINK DETECTADO 」*\n\n${user} 🤨 Rompiste las reglas del Grupo, serás eliminado...`,
-      mentions: [m.sender]
-    }, { quoted: m, ephemeralExpiration: 24 * 60 * 100, disappearingMessagesInChat: 24 * 60 * 100 });
-
-    // Si el bot no es admin, notificar a los admins
-    if (!isBotAdmin) {
-      return conn.sendMessage(m.chat, {
-        text: `*Te salvaste, no soy admin y no puedo eliminarte*`,
-        mentions: [...groupAdmins.map(v => v.id)]
-      }, { quoted: m });
-    }
-
-    // Si el bot es admin, eliminar al usuario
-    await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet } });
-    let responseb = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
-    if (responseb[0].status === "404") return;
-  } else if (!bot.restrict) {
-    return m.reply('*𝙀𝙡 𝙥𝙧𝙤𝙥𝙞𝙚𝙩𝙖𝙧𝙞𝙤 𝙙𝙚𝙡 𝙗𝙤𝙩 𝙣𝙤 𝙩𝙞𝙚𝙣𝙚 𝙖𝙘𝙩𝙞𝙫𝙖𝙙𝙤 𝙚𝙡 𝙧𝙚𝙨𝙩𝙧𝙞𝙘𝙘𝙞𝙤𝙣 (𝙚𝙣𝙖𝙗𝙡𝙚 𝙧𝙚𝙨𝙩𝙧𝙞𝙘𝙩) 𝙘𝙤𝙣𝙩𝙖𝙘𝙩𝙚 𝙘𝙤𝙣 𝙚𝙡 𝙥𝙖𝙧𝙖 𝙦𝙪𝙚 𝙡𝙤𝙨 𝙝𝙖𝙗𝙞𝙡𝙞𝙩𝙚*');
+  // Si el bot no tiene activada la restricción
+  else if (!bot.restrict) {
+    return m.reply('*𝙀𝙇 𝙋𝙍𝙊𝙋𝙄𝙀𝙏𝙐𝙍𝙄𝙊 𝙃𝙐𝙁𝙄𝙀𝙍𝙊 𝙉𝙊 𝙏𝙄𝙀𝙉𝙀 𝙀𝙇 𝙀𝙉𝘼𝘽𝙇𝙀𝘿𝙄𝙕𝘼 𝙀𝙇 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉 (𝙀𝙉𝘼𝘽𝙇𝙀 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏) 𝘾𝙊𝙉𝙏𝘼𝘾𝙏𝙀 𝘾𝙊𝙉 𝙀𝙇 𝙋𝘼𝙍𝘼 𝙌𝙐𝙀 𝙇𝙊𝙎 𝙃𝘼𝘽𝙄𝙇𝙄𝙏𝙀*');
   }
 
   return !0;
