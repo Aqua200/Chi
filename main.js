@@ -234,9 +234,6 @@ filesFolderPreKeys.forEach(files => {
 unlinkSync(`./BotSession/${files}`)
 })
 } 
-const fs = require('fs');
-const path = require('path');
-
 function purgeSessionSB() {
   try {
     // Ruta absoluta hacia 'jadibts' desde la ubicación del script en Termux
