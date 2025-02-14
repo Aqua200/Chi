@@ -1,5 +1,4 @@
-let linkRegex1 = /(chat.whatsapp.com\/([0-9A-Za-z]{20,24})|https:\/\/wlhatt\.life\/morritas\-cp\/)/i;
-let linkRegex2 = /whatsapp.com\/channel\/([0-9A-Za-z]{20,24})/i;
+let linkRegex = /(https?:\/\/)?(chat\.whatsapp\.com\/[A-Za-z0-9-_]+)/i;
 
 export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, participants }) {
     if (!m.isGroup) return;
@@ -10,12 +9,12 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
     let bang = m.key.id;
     const user = `@${m.sender.split`@`[0]}`;
     const groupAdmins = participants.filter(p => p.admin);
-    const listAdmin = groupAdmins.map((v, i) => `*» ${i + 1}. @${v.id.split('@')[0]}*`).join('\n');
-    let bot = global.db.data.settings[this.user?.jid] || {}; // Previene errores si `this.user` no está definido
-    const isGroupLink = linkRegex1.exec(m.text) || linkRegex2.exec(m.text);
-    const grupo = `https://chat.whatsapp.com`;
+    let bot = global.db.data.settings[this.user?.jid] || {}; 
 
-    if (isAdmin && chat.antiLink && m.text.includes(grupo)) {
+    // Verifica si el mensaje contiene un enlace de grupo de WhatsApp
+    const isGroupLink = linkRegex.test(m.text);
+  
+    if (isAdmin && chat.antiLink && isGroupLink) {
         return m.reply('*El AntiLink está activo, pero te salvaste porque eres admin 😎!*');
     }
 
@@ -43,7 +42,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
                 m.chat,
                 {
                     text: `*Te salvaste gil, no soy admin, no te puedo eliminar*`,
-                    mentions: [...groupAdmins.map(v => v.id)]
+                    mentions: groupAdmins.map(v => v.id)
                 },
                 { quoted: m }
             );
