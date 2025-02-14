@@ -266,12 +266,14 @@ function purgeSessionSB() {
 SBprekey = [...SBprekey, ...DSBPreKeys]
 DSBPreKeys.forEach(fileInDir => {
 unlinkSync(`./jadibts/${directorio}/${fileInDir}`)
-})
-
-if (SBprekey.length === 0) return; //console.log(chalk.cyanBright(`=> No hay archivos por eliminar.`))
 } catch (err) {
-console.log(chalk.bold.red(`[ ℹ️ ] Algo salio mal durante la eliminación, archivos no eliminados`))
-}}
+  console.log(chalk.bold.red(`[ ℹ️ ] Algo salió mal durante la eliminación, archivos no eliminados`));
+}
+
+if (SBprekey.length === 0) {
+  console.log(chalk.cyanBright(`=> No hay archivos por eliminar.`));
+  return; // Si necesitas terminar la ejecución aquí, usa return dentro de una función
+}
 
 function purgeOldFiles() {
 const directories = ['./BotSession/', './jadibts/']
