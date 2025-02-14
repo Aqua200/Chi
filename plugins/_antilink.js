@@ -15,7 +15,10 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
   let bot = global.db.data.settings[this.user.jid] || {}; // Configuración del bot
 
   const messageText = m.text || m.body || ''; // Texto del mensaje
+  console.log('Mensaje recibido:', messageText); // Log para verificar el contenido del mensaje
+
   const isGroupLink = linkRegex.exec(messageText); // Verificar si el mensaje contiene un enlace de grupo
+  console.log('¿Enlace de grupo detectado?', isGroupLink); // Log para verificar si el enlace fue detectado correctamente
 
   if (!chat.antiLink) return; // Si el AntiLink no está activado, no hacer nada
 
@@ -23,6 +26,8 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 
   // Si el mensaje contiene un enlace de grupo (y no es del grupo al que pertenece el bot)
   if (isGroupLink && !m.text.includes(grupo)) {
+    console.log('Enlace no pertenece a este grupo, procediendo a eliminar usuario...'); // Log de control
+
     // Si el usuario es admin, no eliminarlo
     if (isAdmin) return m.reply('*El AntiLink está activo pero te salvaste, eres admin 😎!*');
 
@@ -46,7 +51,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 
   // Si el bot no tiene activada la restricción
   else if (!bot.restrict) {
-    return m.reply('*𝙀𝙇 𝙋𝙍𝙊𝙋𝙄𝙀𝙏𝙐𝙍𝙄𝙊 𝙃𝙐𝙁𝙄𝙀𝙍𝙊 𝙉𝙊 𝙏𝙄𝙀𝙉𝙀 𝙀𝙇 𝙀𝙉𝘼𝘽𝙇𝙀𝘿𝙄𝙕𝘼 𝙀𝙇 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉 (𝙀𝙉𝘼𝘽𝙇𝙀 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏) 𝘾𝙊𝙉𝙏𝘼𝘾𝙏𝙀 𝘾𝙊𝙉 𝙀𝙇 𝙋𝘼𝙍𝘼 𝙌𝙐𝙀 𝙇𝙊𝙎 𝙃𝘼𝘽𝙄𝙇𝙄𝙏𝙀*');
+    return m.reply('*𝙴𝙻 𝙿𝙍𝙊𝙋𝙸𝙴𝙏𝙰𝙍𝙄𝙊 𝙃𝙐𝙁𝙄𝙀𝙍𝙊 𝙉𝙊 𝙏𝙄𝙀𝙉𝙀 𝙀𝙇 𝙀𝙉𝘼𝘽𝙇𝙀𝘿𝙄𝙕𝘼 𝙀𝙇 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉 (𝙀𝙉𝘼𝘽𝙇𝙀 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏) 𝘾𝙊𝙉𝙏𝘼𝘾𝙏𝙀 𝘾𝙊𝙉 𝙀𝙇 𝙋𝘼𝙍𝙖 𝙌𝙐𝙀 𝙇𝙊𝙎 𝙃𝘼𝘽𝙄𝙇𝙄𝙏𝙀*');
   }
 
   return !0;
