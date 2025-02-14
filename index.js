@@ -48,7 +48,7 @@ async function start(file) {
       console.error('Error al ejecutar el proceso:', err);
       return;
     }
-    console.log(stdout);
+    console.log(stdout);  // Asegúrate de que el mensaje se vea
     console.error(stderr);
   });
 
@@ -60,8 +60,9 @@ async function start(file) {
     const packageJsonObj = JSON.parse(packageJsonData);
     const currentTime = new Date().toLocaleString();
 
+    // Aquí se asegurará de que los mensajes se vean
     console.log(chalk.yellow(`
-╭──────────────
+╭──────────────────────────
 ┊ 🖥️ ${os.type()}, ${os.release()} - ${os.arch()}
 ┊ 💾 RAM Total: ${ramInGB.toFixed(2)} GB
 ┊ 💽 RAM Libre: ${freeRamInGB.toFixed(2)} GB
@@ -72,7 +73,7 @@ async function start(file) {
 ┊ 💕 Dueña : 𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖝𝖚𝖐𝖎 💋
 ┊ ღ Autor del proyecto: ${packageJsonObj.author.name}
 ┊ ⏰ Hora Actual: ${currentTime}
-╰──────────────`));
+╰──────────────────────────`));
 
     setInterval(() => {}, 1000);
   } catch (err) {
