@@ -1,93 +1,146 @@
-console.log('Iniciando 🚀🚀🚀'); 
+import fetch from 'node-fetch';
 import { join, dirname } from 'path';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
+import { fork } from 'child_process';  // Cambiar de cluster a child_process
 import { watchFile, unwatchFile } from 'fs';
 import cfonts from 'cfonts';
 import { createInterface } from 'readline';
 import yargs from 'yargs';
 import chalk from 'chalk';
-import os from 'os';
-import { promises as fsPromises } from 'fs';
 
+// Mensaje inicial con color
+console.log(chalk.green('\n✿ Iniciando Anika-Bot ✿'));
+
+// Obtener el directorio actual y cargar package.json
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url); 
-const { name, author } = require(join(__dirname, './package.json')); 
-const { say } = cfonts;
-const rl = createInterface(process.stdin, process.stdout);
+const require = createRequire(import.meta.url);
+const { name, description, author, version } = require(join(__dirname, 'package.json'));
 
-say('China-Mitzuki-Bot-MD', {
+// Configurar cfonts para mostrar mensajes estilizados
+const { say } = cfonts;
+const rl = createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+say('Anika-Bot', {
+  font: 'block',
+  align: 'center',
+  colors: ['yellow']
+});
+say('Multi Device', {
   font: 'chrome',
   align: 'center',
-  gradient: ['red', 'magenta']
+  colors: ['redBright']
 });
-say(`Bot personalizado`, {
+say('Editor By • Legna', {
   font: 'console',
   align: 'center',
-  gradient: ['red', 'magenta']
+  colors: ['blueBright']
 });
 
-var isRunning = false;
+let isRunning = false;
 
-async function start(file) {
+function start(file) {
   if (isRunning) return;
   isRunning = true;
 
-  let args = [join(__dirname, file), ...process.argv.slice(2)];
+  const filePath = join(__dirname, file);
+  const args = [filePath, ...process.argv.slice(2)];
 
+  // Mostrar la línea de comando que se usará para el proceso hijo
   say([process.argv[0], ...args].join(' '), {
     font: 'console',
     align: 'center',
-    gradient: ['red', 'magenta']
+    colors: ['candy']
   });
 
-  // Usar exec en lugar de cluster
-  const { exec } = require('child_process');
-  exec(`node ${join(__dirname, file)}`, (err, stdout, stderr) => {
-    if (err) {
-      console.error('Error al ejecutar el proceso:', err);
-      return;
+  // Usar fork en lugar de cluster
+  const worker = fork(filePath, process.argv.slice(2));
+
+  worker.on('message', (data) => {
+    switch (data) {
+      case 'reset':
+        worker.process.kill();
+        isRunning = false;
+        start(file);
+        break;
+      case 'uptime':
+        worker.send(process.uptime());
+        break;
+      default:
+        // Aquí puedes manejar otros mensajes si fuera necesario
+        break;
     }
-    console.log(stdout);  // Asegúrate de que el mensaje se vea
-    console.error(stderr);
   });
 
-  const ramInGB = os.totalmem() / (1024 * 1024 * 1024);
-  const freeRamInGB = os.freemem() / (1024 * 1024 * 1024);
+  worker.on('exit', (code, signal) => {
+    isRunning = false;
+    if (code !== 0) {
+      console.error(
+        chalk.red(
+          `✖️ Error: El proceso hijo terminó con código ${code}${
+            signal ? ' y señal ' + signal : ''
+          }`
+        )
+      );
+      // Reiniciar el proceso hijo después de 1 segundo
+      setTimeout(() => start(file), 1000);
+    } else {
+      console.log(chalk.yellow('Proceso hijo finalizó correctamente.'));
+      process.exit(0);
+    }
+  });
 
-  try {
-    const packageJsonData = await fsPromises.readFile(join(__dirname, './package.json'), 'utf-8');
-    const packageJsonObj = JSON.parse(packageJsonData);
-    const currentTime = new Date().toLocaleString();
-
-    // Aquí se asegurará de que los mensajes se vean
-    console.log(chalk.yellow(`
-╭──────────────────────────
-┊ 🖥️ ${os.type()}, ${os.release()} - ${os.arch()}
-┊ 💾 RAM Total: ${ramInGB.toFixed(2)} GB
-┊ 💽 RAM Libre: ${freeRamInGB.toFixed(2)} GB
-┊ 🟢 Información:
-┊ 💚 Nombre: ${packageJsonObj.name}
-┊ 𓃠 Versión: ${packageJsonObj.version}
-┊ 💜 Descripción: ${packageJsonObj.description}
-┊ 💕 Dueña : 𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖝𝖚𝖐𝖎 💋
-┊ ღ Autor del proyecto: ${packageJsonObj.author.name}
-┊ ⏰ Hora Actual: ${currentTime}
-╰──────────────────────────`));
-
-    setInterval(() => {}, 1000);
-  } catch (err) {
-    console.error(chalk.red(`❌ No se pudo leer el archivo package.json: ${err}`));
-  }
-
-  let opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse());
-  if (!opts['test']) {
+  // Analizar argumentos sin que yargs finalice el proceso en caso de error
+  const opts = yargs(process.argv.slice(2)).exitProcess(false).parse();
+  if (!opts.test) {
     if (!rl.listenerCount('line')) {
-      rl.on('line', line => {
-        console.log(line.trim());
+      rl.on('line', (line) => {
+        worker.emit('message', line.trim());
       });
     }
   }
 }
 
+// Función para obtener la imagen con manejo de errores y reintentos
+async function fetchImage(url, retries = 3, timeout = 5000) {
+  try {
+    const response = await fetch(url, { timeout: timeout }); // Timeout de 5 segundos
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    return await response.buffer(); // Devuelve el buffer de la imagen
+  } catch (error) {
+    if (retries > 0) {
+      console.warn(`Error al obtener la imagen: ${error.message}. Reintentando... (${retries} intentos restantes)`);
+      return fetchImage(url, retries - 1, timeout);
+    } else {
+      console.error(`No se pudo obtener la imagen después de varios intentos: ${error.message}`);
+      return null; // Retorna null si no se pudo obtener la imagen
+    }
+  }
+}
+
+// URL de la imagen que quieres cargar
+const imageUrl = 'https://i.ibb.co/2jKKcrs/file.jpg';
+
+// Intentar cargar la imagen con reintentos
+fetchImage(imageUrl).then((imageBuffer) => {
+  if (imageBuffer) {
+    console.log('Imagen cargada con éxito.');
+    // Aquí puedes usar el buffer de la imagen para algo
+  } else {
+    console.log('No se pudo cargar la imagen.');
+  }
+});
+
+// Manejo de advertencias (por ejemplo, por exceso de listeners)
+process.on('warning', (warning) => {
+  if (warning.name === 'MaxListenersExceededWarning') {
+    console.warn(chalk.yellow('🍡 Se excedió el límite de Listeners en:'));
+    console.warn(warning.stack);
+  }
+});
+
+// Iniciar el proceso con el archivo principal (main.js)
 start('main.js');
