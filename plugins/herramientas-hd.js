@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import FormData from "form-data";
-import Jimp from "jimp";
+const Jimp = require("jimp");
 
 const handler = async (m, { conn, usedPrefix, command }) => {
   try {
