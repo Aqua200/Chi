@@ -2,7 +2,6 @@ console.log('Iniciando 🚀🚀🚀');
 import { join, dirname } from 'path';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
-import { fork } from 'cluster';
 import { watchFile, unwatchFile } from 'fs';
 import cfonts from 'cfonts';
 import { createInterface } from 'readline';
@@ -42,36 +41,20 @@ async function start(file) {
     gradient: ['red', 'magenta']
   });
 
-  let p = fork(args[0], args.slice(1));
-
-  p.on('message', (data) => {
-    console.log('╭--------- - - - ✓\n┆ ✅ TIEMPO DE ACTIVIDAD ACTUALIZADA\n╰-------------------- - - -', data);
-    switch (data) {
-      case 'reset':
-        p.kill();
-        isRunning = false;
-        start(file);
-        break;
-      case 'uptime':
-        p.send(process.uptime());
-        break;
+  // Usar exec en lugar de cluster
+  const { exec } = require('child_process');
+  exec(`node ${join(__dirname, file)}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error('Error al ejecutar el proceso:', err);
+      return;
     }
-  });
-
-  p.on('exit', (code) => {
-    isRunning = false;
-    console.error('⚠️ ERROR ⚠️ >> ', code);
-    if (code !== 0) start('main.js');
-  });
-
-  watchFile(args[0], () => {
-    unwatchFile(args[0]);
-    start(file);
+    console.log(stdout);
+    console.error(stderr);
   });
 
   const ramInGB = os.totalmem() / (1024 * 1024 * 1024);
   const freeRamInGB = os.freemem() / (1024 * 1024 * 1024);
-  
+
   try {
     const packageJsonData = await fsPromises.readFile(join(__dirname, './package.json'), 'utf-8');
     const packageJsonObj = JSON.parse(packageJsonData);
@@ -86,7 +69,7 @@ async function start(file) {
 ┊ 💚 Nombre: ${packageJsonObj.name}
 ┊ 𓃠 Versión: ${packageJsonObj.version}
 ┊ 💜 Descripción: ${packageJsonObj.description}
-┊ 💕 Dueña : 𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖟𝖚𝖐𝖎 💋
+┊ 💕 Dueña : 𝕮𝖍𝖎𝖓𝖆 𝕸𝖎𝖙𝖝𝖚𝖐𝖎 💋
 ┊ ღ Autor del proyecto: ${packageJsonObj.author.name}
 ┊ ⏰ Hora Actual: ${currentTime}
 ╰──────────────`));
@@ -100,7 +83,7 @@ async function start(file) {
   if (!opts['test']) {
     if (!rl.listenerCount('line')) {
       rl.on('line', line => {
-        p.emit('message', line.trim());
+        console.log(line.trim());
       });
     }
   }
