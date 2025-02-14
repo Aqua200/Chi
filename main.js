@@ -263,7 +263,6 @@ function purgeSessionSB() {
   }
 }
 
-})
 SBprekey = [...SBprekey, ...DSBPreKeys]
 DSBPreKeys.forEach(fileInDir => {
 unlinkSync(`./jadibts/${directorio}/${fileInDir}`)
