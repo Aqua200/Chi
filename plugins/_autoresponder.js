@@ -8,7 +8,7 @@ let lastMessageTime = {};
 
 handler.all = async function (m, { conn }) {
     // Verificar si `m` y `conn` están definidos
-    if (!m || !m.sender || !conn) {
+    if (!m || !m.sender || !conn || !m.chat) {
         console.error("Error: El mensaje, el sender o la conexión no están definidos.");
         return;
     }
