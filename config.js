@@ -18,6 +18,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     return;
   }
 
+  console.log("Contenido de global.official:", global.official); // Depuración
+
   // Asegurarse de que hay contactos con el estado 1
   const contacts = global.official.filter(([_, __, status]) => status === 1);
 
@@ -26,6 +28,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     console.log("No se encontraron contactos con estado 1.");
     return;
   }
+
+  console.log("Contactos filtrados:", contacts); // Depuración
 
   const lista = [];
 
@@ -64,11 +68,11 @@ ${fb}
   // Agregar el número del dueño al final del mensaje
   cat += `*---------------------*\n*Dueño:* +${ownerNumber}\n*---------------------*`;
 
-  // Depuración: Verificar que el mensaje se está construyendo correctamente
-  console.log("Mensaje que se enviará:", cat);
+  console.log("Mensaje final que se enviará:", cat); // Depuración
 
   // Enviar mensaje con los contactos
   try {
+    console.log("Enviando mensaje a:", m.chat); // Depuración
     await conn.sendMessage(m.chat, { 
       text: cat, 
       contextInfo: { 
