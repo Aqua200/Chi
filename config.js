@@ -61,6 +61,9 @@ ${fb}
     cat += `• ${name}\n   📞 +${number}\n   📄 ${bio}\n\n`;
   }
 
+  // Agregar el número del dueño al final del mensaje
+  cat += `*---------------------*\n*Dueño:* +${ownerNumber}\n*---------------------*`;
+
   // Depuración: Verificar que el mensaje se está construyendo correctamente
   console.log("Mensaje que se enviará:", cat);
 
